@@ -1,0 +1,13 @@
+definition,R2,split
+"logit scale, uncens only [paper stated]",0.9263223204899447,train
+"logit scale, ALL points (incl. censored)",-137.488014569453,train
+"% rejection scale, uncens only",0.9781296721574323,train
+"% rejection scale, ALL points",0.9695268588897902,train
+"logit, uncens, excl. logit>=9.0 outliers",0.928285879685649,train
+"logit, uncens, CORR^2 (no bias penalty)",0.932957783445859,train
+"logit scale, uncens only [paper stated]",-0.4009211307469247,test
+"logit scale, ALL points (incl. censored)",-166.14558232945777,test
+"% rejection scale, uncens only",0.7613920248863504,test
+"% rejection scale, ALL points",0.7717112868766121,test
+"logit, uncens, excl. logit>=9.0 outliers",-0.4009211307469247,test
+"logit, uncens, CORR^2 (no bias penalty)",0.48765592166608956,test

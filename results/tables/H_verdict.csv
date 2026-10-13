@@ -1,0 +1,5 @@
+claim,finding,survives
+"steric dominance (vol+pwp top-2, ~42%)","vol #1, pwp #3 (ON #2); share 0.33","partly (direction yes, share/rank no)"
+charge via pH / O:N,"pH net +0.07, ON net +0.05 over PD ranges [0.05, 0.075]","yes (directions intact, modest size)"
+"non-monotonic salts (low boost, high decline)","mono/di PD ranges [0.011, 0.007], nets ~0; wiggles only",no (effects flat; paper curves do not transfer)
+"non-monotonic DOC (boost to ~6, decline after)","DOC PD net -0.11, declining limb only",partly (high-DOC decline only)

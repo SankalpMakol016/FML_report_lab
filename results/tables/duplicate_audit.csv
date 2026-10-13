@@ -1,0 +1,4 @@
+check,n
+exact-dupe rows in full frame (13 feats+y+cens),38
+test rows (n=368) exactly matching a train row,5
+"test rows with near-dupe in train (same study/mem/PFAS, feats within 1%, |dlogit|<0.05)",0

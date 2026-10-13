@@ -1,0 +1,3 @@
+method,coverage_uncens,median_rmse_pct,mean_width_logit
+lgb-quantile-80%,0.3583761082594494,10.746113356705168,1.3675478913436876
+cross-conformal-80% (lgb point),0.7913942837224783,,

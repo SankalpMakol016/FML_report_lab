@@ -1,0 +1,35 @@
+Verification full run log (items 1+6)
+=====================================
+Pipeline: run_all.sh end-to-end, no --fast, BEST=aft (item 1).
+- Phase 1 (01→16b, full trials: 03 N_TRIALS=100, 05 N_TRIALS=30, 16 N_TUNE=20):
+  /tmp/full_run.log (98 KB), reached scripts/17_conformal_G.py, then killed by
+  tool timeout (not a script failure). All 01–16b outputs fresh full-mode.
+- Phase 2 (resume 17,18,22,23,19,20,tests, BEST=aft, nohup):
+  /tmp/resume_17onward.sh, /tmp/resume_run.log (11 KB),
+  RESUME START Sat Oct 10 18:33:41 IST 2026 → RESUME DONE Sat Oct 10 18:37:44 IST 2026
+  (~4 min for 17/18/22/23/19/20; 19 bootstrap ~2 min, 2000 reps).
+  17 G best-model = aft confirmed in log; G_coverage.csv now 25×aft-best +
+  25×aft-calibrated; 19 G section read aft rows OK
+  (saved 5.084±0.273 / 3.724±0.101; boot 5.322/3.669 diff 1.653).
+- Confirm 01–23 complete: results/tables/ holds all of 01–23 outputs
+  (A_*, A2_*, B_*, C_*, C2_*, D_*, D2_*, E_*, F_*, G_*, H_*, R3_*, grouped_*,
+  audit_*, replication_*, seed_*, shap_*, cindex_*, ad_*, uncertainty_*),
+  results/models/xgb_aft_replication.json + xgb_aft_grouped.json.
+  19_bootstrap.py (script 19, not to confuse with BEST env) ran with BEST=aft
+  in env as required.
+
+Environment (item 6)
+--------------------
+- Pipeline python: /opt/anaconda3/envs/fml/bin/python = Python 3.10.20
+- System python3: Python 3.14.6 (NOT used)
+- pip freeze (fml env, 69 lines): results/tables/VERIFY_pip_freeze.txt
+- Input: paper/es6c02287_si_002.xlsx
+  sha256 ecd4349b334d6dfad4e3a076481e0345a59d71ed7d2523d0eb4a4082e8095a3a
+- Output checksums (76 files, csv+json): results/tables/VERIFY_sha256.txt
+- VERIFY table (57 comparisons, 18 flagged): results/tables/VERIFY_report_vs_regenerated.csv
+- Bootstrap Holm (item 3): results/tables/R3_holm_clusterboot.csv
+  (4/15 change status; seed-bootstrap for non-C2 only, p floor 1e-4 at B=10000)
+- C2 leakage tests (item 4, full mode): 4/5 pass; closeness FAILS
+  (max|dw|=0.0562 > 0.05). Pasted verbatim in final report.
+- REPORT.md updated in place for regenerated baseline and dependent numbers
+  (item 5); changed conclusions listed in final report. No tuning to recover.

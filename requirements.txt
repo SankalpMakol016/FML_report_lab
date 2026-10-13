@@ -1,0 +1,26 @@
+# Reproducibility environment for the Tomsovic et al. (EST 2026) replication/audit.
+# Tested interpreter: conda env `fml`, Python 3.10.20 (conda-forge, macOS arm64).
+# Install: pip install -r requirements.txt
+# All scripts use fixed seeds (SEED = 42); run in order 01 -> 08.
+pandas==2.3.3
+numpy==2.2.6
+scikit-learn==1.7.2
+scipy==1.15.3
+xgboost==3.2.0
+lightgbm==4.7.0
+optuna==5.0.0
+lifelines==0.30.0
+statsmodels==0.15.0
+catboost==1.2.10
+openpyxl==3.1.5
+matplotlib==3.10.9
+joblib==1.6.0
+tqdm==4.70.0
+# Installed but unused by the scripts (available in env): seaborn==0.13.2,
+# shap==0.49.1 (NOT used: incompatible with xgboost>=3 model files; exact
+# TreeSHAP is obtained natively via Booster.predict with
+# pred_contribs/pred_interactions instead - see scripts/04).
+# Deliberately ABSENT: gpboost (joint tree + random-effects fitting was the
+# first choice for script 12 but segfaults in this env, exit 139, macOS/arm64
+# OpenMP clash, with and without KMP_DUPLICATE_LIB_OK; two-stage
+# statsmodels MixedLM used instead - see REPORT §5-B).

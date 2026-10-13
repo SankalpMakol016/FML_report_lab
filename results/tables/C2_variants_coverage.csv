@@ -1,0 +1,63 @@
+study,n_rows,n_uncens,pool_random,pool_standard,std_compound,modal_compound,pool_modal
+"Abdikheibari, 2022",3,3,3,0,NONE,PFBS_K,3
+"Appleman et al, 2013",135,8,8,0,NONE,PFBS,8
+"Bi et al, 2024",56,56,56,5,PFOA,PFHxS,21
+"Boo, 2018",6,6,6,6,PFOA,PFOA,6
+"Boonya-atichart, 2017",2,2,2,2,PFOA,PFOA,2
+"Chen et al, 2023",86,83,83,4,PFOA,PFHxS,39
+"Fang et al, 2024",8,8,8,1,PFOA,PFOS,6
+"Franke, 2019",8,2,2,1,PFOS,PFHxS,1
+"Franke, 2021",16,0,16,0,NONE,PFBA,2
+"Fujioka, 2024",15,15,15,3,PFOA,PFHxS,3
+"Ge et al, 2025",42,42,42,3,PFOA,HFPO-DA,3
+"Griffin, 2024",42,27,27,6,PFOA,PFBS,6
+"H. Hara-Yamamura, 2022",6,6,6,3,PFOA,PFOA,3
+"Hang, 2015",42,34,34,34,PFOA,PFOA,34
+"Jeong et al, 2024",77,77,77,7,PFOA,FOSA,7
+"Kim et al, 2025",16,16,16,8,PFOA,PFOA,8
+"Le et al, 2022",5,5,5,5,PFOS,PFOS,5
+"Li et al, 2021",14,14,14,3,PFOA,PFBS,3
+"Lipp et al, 2010",16,13,13,4,PFOA,PFBS,4
+"Liu Z et al, 2024",15,15,15,15,PFOA,PFOA,15
+"Liu Z et al, 2024 (2)",28,28,28,0,NONE,PFBS,28
+"Liu et al, 2021",120,80,80,8,PFOA,PFBS,8
+"Liu et al, 2023",62,59,59,4,PFOA,4:2 FTSA,4
+"Lu et al, 2025",138,134,134,6,PFOA,4:2 FTSA,6
+"Luo et al, 2025",28,28,28,4,PFOA,6:2 FTSA,4
+"Luo, 2016",48,48,48,48,PFOS,PFOS,48
+"L√©niz-Pizarro, 2022",11,11,11,5,PFOA,PFOA,5
+"Ma J., 2022",35,35,35,0,NONE,PFHxA,18
+"Ma et al, 2024",90,76,76,27,PFOA,PFBA,33
+"Ma et al, 2024 (2)",40,40,40,20,PFOA,PFBA,20
+"Minhas et al, 2025",14,14,14,10,PFOA,PFOA,10
+"Pica, 2019",1,1,1,0,NONE,HFPO-DA,1
+"Pilevar et al, 2025",4,4,4,4,PFOA,PFOA,4
+"Pramanik, 2017",20,20,20,10,PFOA,PFOA,10
+"Qi et al, 2022",16,16,16,4,PFOA,PFBA,4
+"Rattanaoudom, 2011",5,5,5,5,PFOA,PFOA,5
+"Rychlewska, 2024",165,165,165,9,PFOA,PFBA,10
+"Safulko et al., 2023",35,32,32,4,PFOA,PFBS,4
+"Soriano, 2019",62,62,62,0,NONE,PFHxA,62
+"Steinle-Darling & Reinhard, 2008",57,48,48,5,PFOA,FOSA,6
+"Steinle-Darling et al, 2010",2,2,2,0,NONE,FOSA,2
+"Tang, 2006",24,24,24,24,PFOS,PFOS,24
+"Tang, 2007",28,28,28,28,PFOS,PFOS,28
+"Toure, 2019",5,5,5,3,PFOA,PFOA,3
+"Turk et al, 2025",48,48,48,24,PFOA,PFOA,24
+"Wang et al, 2018",15,15,15,13,PFOS,PFOS,13
+"Wang et al, 2025",24,24,24,4,PFOS,PFBA,4
+"Wang et al, 2025 (2)",16,16,16,0,NONE,PFBA,16
+"Wang, 2015",44,44,44,44,PFOS,PFOS,44
+"Wang, 2021",15,15,15,7,PFOA,PFOS,8
+"Wu Y, 2023",44,44,44,22,PFOA,PFOA,22
+"Yang et al, 2024",6,4,4,2,PFOA,PFOA,2
+"Yu, 2016",14,14,14,14,PFOS,PFOS,14
+"Zeng, 2017",43,43,43,0,NONE,PFHxA,43
+"Zhai et al, 2025",24,24,24,4,PFOA,PFBS,4
+"Zhang, 2024",27,27,27,3,PFOA,PFDA,3
+"Zhao, 2013",104,104,104,104,PFOS,PFOS,104
+"Zhao, 2016",38,38,38,38,PFOS,PFOS,38
+"Zhao, 2018",25,25,25,25,PFOS,PFOS,25
+"Zhao, 2020",31,31,31,31,PFOS,PFOS,31
+"Zhi et al, 2022",60,55,55,5,PFOA,4:2 FTSA,5
+"Zhi et al, 2025",224,175,175,15,PFOA,HFPO-DA,15

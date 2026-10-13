@@ -1,0 +1,69 @@
+alembic==1.20.0
+autograd==1.9.1
+autograd-gamma==0.5.0
+catboost==1.2.10
+category_encoders==2.8.1
+cffi==2.1.1
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1786835581063/work
+cloudpickle==3.1.2
+colorlog==6.12.0
+contourpy @ file:///Users/runner/miniforge3/conda-bld/contourpy_1744743163818/work
+cryptography==50.0.2
+cycler @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_cycler_1764466758/work
+et_xmlfile==2.0.0
+fonttools @ file:///Users/runner/miniforge3/conda-bld/fonttools_1778770433390/work
+formulaic==1.2.2
+freetype-py @ file:///home/conda/feedstock_root/build_artifacts/freetype-py_1650983368720/work
+gpboost==1.7.4
+graphviz==0.21
+greenlet @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_greenlet_1786384217/work
+interface_meta==2.0.1
+joblib==1.6.0
+kiwisolver @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_kiwisolver_1787938605/work
+lifelines==0.30.0
+lightgbm==4.7.0
+llvmlite==0.49.0
+Mako==1.4.3
+MarkupSafe==3.0.4
+matplotlib==3.10.9
+munkres==1.1.4
+narwhals==2.25.0
+numba==0.67.0
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1747544633931/work/dist/numpy-2.2.6-cp310-cp310-macosx_11_0_arm64.whl#sha256=50a17562ef677de6531058e998e32487919c216e19ca4e1bdd86b0e1262251c1
+openpyxl==3.1.5
+optuna==5.0.0
+packaging==26.3
+pandas @ file:///Users/runner/miniforge3/conda-bld/pandas_1759265743841/work
+patsy==1.0.3
+pdfminer.six==20260107
+pdfplumber==0.11.10
+pillow @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_pillow_1782912213/work
+plotly==7.0.0
+pyaml==26.7.0
+pycairo==1.29.1
+pycparser==3.11
+pyparsing @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pyparsing_1769003998/work
+pypdfium2==5.14.0
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_python-dateutil_1751104122/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pytz_1785077087/work
+PyYAML==6.0.3
+rdkit @ file:///Users/runner/miniforge3/conda-bld/rdkit-meta_1785665677200/work
+reportlab @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_reportlab_1787251752/work
+rlPyCairo @ file:///home/conda/feedstock_root/build_artifacts/rlpycairo_1756864152814/work
+scikit-learn==1.7.2
+scikit-optimize==0.10.2
+scipy==1.15.3
+seaborn==0.13.2
+shap==0.49.1
+six @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_six_1753199211/work
+slicer==0.0.8
+SQLAlchemy @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_sqlalchemy_1786535236/work
+statsmodels==0.15.0
+threadpoolctl==3.6.0
+tomli==2.5.0
+tqdm==4.70.0
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1783002732/work
+tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1783704735836/work
+unicodedata2 @ file:///Users/runner/miniforge3/conda-bld/unicodedata2_1770909256956/work
+wrapt==2.4.0
+xgboost==3.2.0

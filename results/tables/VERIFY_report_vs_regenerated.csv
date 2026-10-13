@@ -1,0 +1,58 @@
+item,metric,report_value,regen_value,file_row,abs_diff,flag
+baseline,RMSE,10.5,10.3,A_features_oof.csv:variant=base13 mean rmse,0.1999999999999993,>0.05 RMSE;
+baseline,MAE,7.41,7.24,A_features_oof.csv:variant=base13 mean mae,0.16999999999999993,
+baseline,C-index,0.638,0.623,A_features_oof.csv:variant=base13 mean cindex,0.015000000000000013,
+Baseline2,RMSE,12.01,12.01,R3_paperhypers_grouped.csv:variant=paper-hypers mean rmse,0.0,
+Baseline2,RMSE gain,1.51,1.71,R3_paperhypers_grouped.csv:paired paper-grouped,0.19999999999999996,>0.05 RMSE;
+A,RMSE,10.73,10.41,"A_features_gain.csv:variant=allextra,metric=rmse var_mean",0.3200000000000003,>0.05 RMSE;
+A,RMSE gain,0.22,0.11,A_features_gain.csv:gain_mean,0.11,>0.05 RMSE;
+A,Holm raw p,0.13,0.2102650635274396,R3_holm.csv:test=A_all_allextra_vs_base p_raw,0.08026506352743959,
+A,Holm adj p,0.66,0.3469738974179032,R3_holm.csv:p_holm,0.31302610258209684,
+A,boot study-avg,0.3,0.19,R3_bootstrap.csv:estimand=A_all_gain_allextra-base boot_mean,0.10999999999999999,>0.05 RMSE;
+A,boot pooled,0.25,0.14,R3_bootstrap.csv:POOLEDboot boot_mean,0.10999999999999999,>0.05 RMSE;
+A2,RMSE,9.17,8.93,"A2_ablation_gain.csv:variant=+wca+tmp,metric=rmse var_mean",0.2400000000000002,>0.05 RMSE;
+A2,RMSE gain,-0.41,-0.38,A2_ablation_gain.csv:mean,0.02999999999999997,
+A2,Holm raw p,2.4e-05,1.448373741678027e-07,R3_holm.csv:test=A2_+wca+tmp p_raw,2.3855162625832198e-05,
+A2,Holm adj p,0.00032,1.8828858641814349e-06,R3_holm.csv:p_holm,0.0003181171141358186,
+B,study ICC,0.49,0.49,B_variance.csv:study_icc mean,0.0,
+B,mem ICC,0.51,0.51,B_variance.csv:mem_icc mean,0.0,
+B,PI90 cov,0.93,0.93,B_variance.csv:pi90_cov mean,0.0,
+B,PI90 width,5.69,5.69,B_variance.csv:pi90_width mean,0.0,
+C2 k=1,RMSE,9.36,9.16,"C2_honest_summary.csv:k=1,metric=rmse honest_mean",0.1999999999999993,>0.05 RMSE;
+C2 k=1,orig RMSE,9.27,9.08,C2_summary.csv:k=1 eb_mean,0.1899999999999995,>0.05 RMSE;
+C2 k=1,Holm raw p,0.05,0.1734869487089516,R3_holm.csv:test=C2_k1 p_raw,0.12348694870895159,
+C2 k=1,Holm adj p,0.2,0.3469738974179032,R3_holm.csv:p_holm,0.14697389741790318,
+C2 k=2,RMSE,8.88,8.69,"C2_honest_summary.csv:k=2,metric=rmse honest_mean",0.19000000000000128,>0.05 RMSE;
+C2 k=2,orig RMSE,8.88,8.69,C2_summary.csv:k=2 eb_mean,0.19000000000000128,>0.05 RMSE;
+C2 k=2,Holm raw p,0.0073,0.0087670889369187,R3_holm.csv:test=C2_k2 p_raw,0.0014670889369186998,
+C2 k=2,Holm adj p,0.059,0.0701367114953497,R3_holm.csv:p_holm,0.0111367114953497,
+C2 k=3,RMSE,8.58,8.4,"C2_honest_summary.csv:k=3,metric=rmse honest_mean",0.17999999999999972,>0.05 RMSE;
+C2 k=3,orig RMSE,8.61,8.44,C2_summary.csv:k=3 eb_mean,0.16999999999999993,>0.05 RMSE;
+C2 k=3,Holm raw p,0.001,0.0004929729294391,R3_holm.csv:test=C2_k3 p_raw,0.0005070270705609001,
+C2 k=3,Holm adj p,0.004,0.004929729294391,R3_holm.csv:p_holm,0.0009297292943910001,
+D,RMSE,21.98,21.98,"D_hybrid_gain.csv:variant=hybrid,metric=rmse var_mean",0.0,
+D,RMSE gain,11.48,11.68,D_hybrid_gain.csv:mean,0.1999999999999993,>0.05 RMSE;
+D,Holm adj p,3.3e-08,2.5205510173317688e-08,R3_holm.csv:test=D_hybrid p_holm,7.79448982668231e-09,
+D2,RMSE gain,0.25,0.25,D2_gain.csv:physfeat rmse mean,0.0,
+D2,Holm raw p,0.015,0.0149996021029824,R3_holm.csv:test=D2 p_raw,3.978970176000268e-07,
+D2,Holm adj p,0.09,0.1049972147208772,R3_holm.csv:p_holm,0.0149972147208772,
+E,low gain,-2.86,-2.86,E_scope.csv:paired reg-all-reg-hi rmse_low,0.0,
+E,high gain,0.63,0.63,E_scope.csv:paired rmse_hi,0.0,
+E,low-slice reg-all,46.7,46.7,E_scope.csv:reg-all rmse_low mean,0.0,
+E,low-slice hi-only,49.6,49.6,E_scope.csv:reg-hi-only rmse_low mean,0.0,
+E,Q1 RMSE,45.7,48.2,E_lowprobe.csv:rmse_low,2.5,>0.05 RMSE;
+F,lgb-tuned RMSE,10.46,10.46,F_stack_oof.csv:variant=lgb-tuned mean rmse,0.0,
+F,cat-tuned RMSE,10.51,10.51,F_stack_oof.csv:variant=cat-tuned mean rmse,0.0,
+F,stack RMSE,11.13,11.13,F_stack_oof.csv:variant=stack mean rmse,0.0,
+F,lgb-tuned gain,-0.05,0.16,F_stack_gain_vs_baseline.csv:lgb-tuned rmse mean,0.21000000000000002,>0.05 RMSE;
+F,cat-tuned gain,0.01,0.21,F_stack_gain_vs_baseline.csv:cat-tuned rmse mean,0.19999999999999998,>0.05 RMSE;
+F,stack gain,0.62,0.83,F_stack_gain_vs_baseline.csv:stack rmse mean,0.20999999999999996,>0.05 RMSE;
+G,width best,5.26,5.08,G_coverage.csv:model=aft-best width mean,0.17999999999999972,
+G,width cal,3.74,3.72,G_coverage.csv:model=aft-calibrated width mean,0.020000000000000018,
+G,width diff,1.52,1.36,G_coverage.csv:best-cal width diff,0.15999999999999992,
+G,cov best,0.899,0.898,G_coverage.csv:aft-best coverage mean,0.0010000000000000009,
+G,cov cal,0.9,0.902,G_coverage.csv:aft-calibrated coverage mean,0.0020000000000000018,
+G-boot,G_width_best,5.41,5.32,R3_bootstrap.csv:estimand=G_width_best boot_mean,0.08999999999999986,
+G-boot,G_width_cal,3.71,3.67,R3_bootstrap.csv:estimand=G_width_cal boot_mean,0.040000000000000036,
+G-boot,G_width_diff_best-cal,1.71,1.65,R3_bootstrap.csv:estimand=G_width_diff_best-cal boot_mean,0.06000000000000005,
+C2-audit,max|dw|,0.046,0.056,C2_leakage_audit.csv:max|w_train-w_global|,0.010000000000000002,

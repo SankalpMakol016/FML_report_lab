@@ -1,0 +1,14 @@
+{
+  "trial": 74,
+  "mean_cv_nll": 1.659211776124191,
+  "eta": 0.14150958900005894,
+  "aft_loss_distribution": "normal",
+  "aft_loss_distribution_scale": 0.8204766561388832,
+  "max_depth": 7,
+  "subsample": 0.7962572152404898,
+  "colsample_bytree": 0.9086633129695287,
+  "min_child_weight": 4.63299239338622,
+  "lambda": 0.010171466811817844,
+  "alpha": 0.00016213408318602142,
+  "n_estimators": 243
+}

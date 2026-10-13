@@ -1,0 +1,3 @@
+split,n,n_censored,n_uncensored
+train,2082,264,1818
+test,368,43,325

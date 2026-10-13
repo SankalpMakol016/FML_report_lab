@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+# macOS / editors
+.DS_Store
+.ipynb_checkpoints/
+.vscode/
+.idea/
+# data / env (keep results/ tracked intentionally)
+*.log
+!results/optuna_full.log
+!results/VERIFY_runtime.log
