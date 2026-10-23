@@ -595,7 +595,7 @@ were chosen by documented, deterministic defaults — not tuned to match.
    (1), A2 is hypothesis-only.
 6. **Conformal widths are marginal, not conditional.** 90% coverage holds on
    average; by AD bin it ranges ~0.83–0.97 (far-field under-covers). Widths are
-   logit-scale and model-specific (AFT); the 29% narrowing is an efficiency
+   logit-scale and model-specific (AFT); the 27% narrowing is an efficiency
    gain conditional on accepting EB calibration on 2 points.
 7. **Tuning-protocol contrast is diagnostic.** Paper-hypers-vs-grouped-retuned
    (+1.51 RMSE) isolates tuning from leakage using our replication hypers as
