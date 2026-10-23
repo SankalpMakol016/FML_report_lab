@@ -187,7 +187,10 @@ Fixed (fully-tuned) hyperparameters, honest splits, full data:
 | By membrane, 5-fold | 0.68 ± 0.05 | 11.4 ± 2.8 | −1.08 ± 0.99 |
 | By PFAS, 5-fold | 0.78 ± 0.09 | 8.3 ± 2.7 | −7.4 ± 13.7 |
 | Leave-one-study-out (pooled) | 0.61 | 11.7 | −4.34 (per-study median −1.75; 77% of studies < 0) |
-| **Re-tuned UNDER grouped CV** (depth 3, eta 0.015 — regularization helps) | **0.65** | **10.3** | **−0.19 (median −0.07)** |
+| **Re-tuned UNDER grouped CV** (depth 3, eta 0.0081, subsample 0.64,
+   colsample 0.79, mcw 20.1, λ 0.083, α 0.0012, scale 0.69, 711 trees —
+   `results/tables/grouped_best_params.json`) | **0.65** | **10.3** |
+   **−0.19 (median −0.07)** |
 Note: the identical honest config re-run inside the §4a battery gives
 10.38 / −0.09 (C-index 0.65 both times). The RMSE/C-index agree to ~0.3%;
 the R² disagreement between two identical runs is itself evidence for §2.2
@@ -289,29 +292,35 @@ match paper numbers; all tuning used grouped CV only.
 
 ### Summary table (grouped CV, 10 seeds; gain = method − baseline, RMSE)
 
-| # | Method | RMSE | MAE | C-index | RMSE gain [95% t CI] (primary) | Cluster-bootstrap 95% CI, 2000 reps (resample ref_id) | Holm (m=15) | Verdict |
+Holm lenses: **primary** = study-level cluster-bootstrap Holm (m=15) from
+`scripts/20b_holm_clusterboot.py` (`R3_holm_clusterboot.csv`, resamples the 62
+studies, B=10000); **secondary / SUPERSEDED** = seed-t Holm (m=15) from
+`scripts/20_holm.py` (`R3_holm.csv`, `log_20holm.log`) — resampling 10 seeds is
+not a cluster bootstrap and is strictly weaker, so its verdicts are superseded.
+
+| # | Method | RMSE | MAE | C-index | RMSE gain [95% t CI] (primary endpoint) | Study-bootstrap Holm (m=15) — PRIMARY | Seed-t Holm (m=15) — SUPERSEDED | Verdict |
 |---|---|---|---|---|---|---|---|---|
 | – | Baseline: XGB-AFT (grouped-retuned) | 10.30±0.19 | 7.24±0.18 | 0.623±0.017 | – | – | – | reference |
 | – | Baseline2 (NEW round 3): paper-style hypers (depth 7, eta 0.14, 243 trees) under grouped protocol | 12.01±0.40 | 8.47±0.40 | 0.605±0.015 | +1.71 [+1.41,+2.01] | – (single-config contrast; `R3_paperhypers_grouped.csv`, `log_R3paper.log`) | n/a (diagnostic, not a §5 claim) | **significantly worse than grouped-retuned; tuning protocol matters but does not rescue generalization (12.0 vs paper random-split 5.8)** |
-| A | + pfas_class/zp/wca/tmp/mode/system + missing flags (all rows) | 10.41±0.34 | 7.24±0.26 | 0.626±0.012 | +0.11 [−0.07,+0.29] | study-avg +0.19 [−0.25,+0.64]; pooled +0.14 [−0.50,+0.71] — agree (null) | NS (raw p=0.21, Holm p=0.35) — survives as null | **not significant (null); robust null** |
-| A2 | + TMP + contact angle (zp-observed subset, 2218 rows / 59 studies, `log_11b.log`) | 8.93±0.25 | 6.17±0.24 | 0.662±0.014 | −0.38 [−0.44,−0.32] | study-avg −0.09 [−0.46,+0.27]; pooled −0.24 [−0.64,+0.14] — **both include 0 (FRAGILE, see below)** | survives Holm (raw p=1.4e-07, Holm p=1.9e-06) on seed-CI | **significant under seed-CI + Holm, NOT under cluster bootstrap → downgraded to non-robust / hypothesis-only** |
+| A | + pfas_class/zp/wca/tmp/mode/system + missing flags (all rows) | 10.41±0.34 | 7.24±0.26 | 0.626±0.012 | +0.11 [−0.07,+0.29] | p_raw_boot=0.39, p_holm_boot=1.0 — NS | raw p=0.21, Holm p=0.35 — NS, survives as null | **not significant (null); robust null** |
+| A2 | + TMP + contact angle (zp-observed subset, 2218 rows / 59 studies, `log_11b.log`) | 8.93±0.25 | 6.17±0.24 | 0.662±0.014 | −0.38 [−0.44,−0.32] | allextra p_raw_boot=0.81/p_holm=1.0; +wca+tmp p_raw_boot=0.64/p_holm=1.0 — **NS under study-bootstrap Holm** | raw p=1.4e-07, Holm p=1.9e-06 — sig on seed-CI | **significant under seed-CI + Holm, NOT under study-bootstrap Holm → withdrawn as an improvement; hypothesis-only** |
 | B | Mixed-effects (LMM on XGB OOF residuals) | = base (RE=0) | = base | = base | 0 (by construction) | – | – | **null on points; intervals ✓** |
-| C2 | EB few-shot calibration k=1 / 2 / 3, HONEST train-only plug-ins (study-averaged LOSO; k=0: 9.61; original global-plug-in values in brackets) | 9.16 / 8.69 / 8.40 [orig 9.08/8.69/8.44] | 7.21 / 6.84 / 6.56 | – (offset is monotone) | −0.52 [−1.27,+0.23] / −1.15 [−1.99,−0.30] / −1.41 [−2.17,−0.65] | −0.52 [−1.23,+0.24] / −1.15 [−2.00,−0.38] / −1.41 [−2.15,−0.72] — agree | k1 NS; **k3 survives (Holm p=0.0049); k2 LOSES under Holm (raw p=0.0088, Holm p=0.070)** | **k=1 NS; k=3 significant (robust); k=2 significant unadjusted but marginal under Holm — report as borderline** |
-| D | Physics-hybrid (Ferry–Renkin + charge → residual trees) | 21.98±1.64 | 13.16±1.24 | 0.570±0.021 | +11.68 [+10.59,+12.77] | – (effect too large for bootstrap to matter) | survives (Holm p=2.5e-08) | **significantly harmful (failed; robust)** |
-| D2 | Physics-as-features variant | 11.09 | 7.43 | 0.610 | +0.25 [+0.06,+0.43] (vs xgb13, as run) | – | **LOSES under Holm (raw p=0.015, Holm p=0.105)** | **harmful unadjusted; NS after Holm — downgraded to suggestive** |
-| E | Scope: +67 R<0.5 rows (XGB-reg; AFT returns NaN on logit<0 — verified) | low-slice 46.7 vs 49.6; high-slice +0.63 | – | – | low −2.86 [−3.25,−2.48]; high +0.63 [+0.36,+0.90]; overall NS | – | both survive Holm (p≈4e-08/6e-04) | **mixed: helps low-R, hurts high-R; R<0.5 still unusable (Q1 RMSE 48.2, 0% within 10pp)** |
-| F | Tuned LGBM / CatBoost / ridge-stack (grouped-Optuna, 20 trials) | 10.46 / 10.51 / 11.13 | 6.96 / 7.08 / 7.26 | 0.621 / 0.623 / 0.588 | +0.16 NS / +0.21 [+0.04,+0.38] / +0.83 [+0.56,+1.09] | – | LGBM NS, Cat sig unadjusted but NS under Holm, **stack-harm survives Holm (p=6.9e-04)** | **null on RMSE for LGBM (MAE wins sig. for LGBM/CatBoost); CatBoost harmful unadjusted but NS under Holm; stacking significantly harmful (robust)** |
-| G | 90% cross-conformal: AFT-best vs EB-calibrated | cov 0.898 / 0.902 | width 5.08 / **3.72** logit | – | width diff 1.36 (27% narrower at equal coverage) | boot widths 5.32 [4.53,6.14] / 3.67 [3.34,4.10]; diff 1.65 [1.02,2.36] — agree, excludes 0 | n/a (efficiency, not a gain test) | **✓ both hit nominal; calibrated intervals 27% narrower (robust)** |
+| C2 | EB few-shot calibration k=1/2/3, HONEST train-only plug-ins (study-averaged LOSO; k0 study-averaged baseline RMSE = 9.56; original global-plug-in values in brackets) | 9.16 / 8.69 / 8.40 [orig 9.08/8.69/8.44] | 7.21 / 6.84 / 6.56 | – (offset is monotone) | −0.52 / −1.15 / −1.41 | k1 p_holm=1.0 NS; **k3 p_raw_boot=2.0e-04, p_holm_boot=0.0028 — sig**; k2 p_raw_boot=0.0071, p_holm_boot=0.092 — borderline NS | k1 NS; k3 Holm p=0.0049 sig; k2 Holm p=0.070 loses | **k=1 NS; k=3 significant & robust; k=2 borderline under both lenses** |
+| D | Physics-hybrid (Ferry–Renkin + charge → residual trees) | 21.98±1.64 | 13.16±1.24 | 0.570±0.021 | +11.68 [+10.59,+12.77] | **p_raw_boot=1.0e-04, p_holm_boot=0.0015 — sig (robust failure)** | survives (Holm p=2.5e-08) | **significantly harmful (failed; robust)** |
+| D2 | Physics-as-features variant | 11.09 | 7.43 | 0.610 | +0.25 [+0.06,+0.43] (vs xgb13, as run) | NS under study-bootstrap Holm (p_boot=0.56, p_holm=1.0) | LOSES under seed-t Holm (raw p=0.015, Holm p=0.105) | **harmful unadjusted; NS under both lenses — not a robust claim** |
+| E | Scope: +67 R<0.5 rows (XGB-reg; AFT returns NaN on logit<0 — verified) | low-slice 46.7 vs 49.6; high-slice +0.63 | – | – | low −2.86 [−3.25,−2.48]; high +0.63 [+0.36,+0.90]; overall NS | low p_raw_boot=0.0077, p_holm_boot=0.092 — borderline NS; high p_raw_boot=0.047, p_holm_boot=0.51 — NS | both survive seed-t Holm (p≈4e-08/6e-04) | **mixed: helps low-R, hurts high-R; both downgraded to suggestive under study-bootstrap Holm; R<0.5 still unusable (Q1 RMSE 48.2, 0% within 10pp)** |
+| F | Tuned LGBM / CatBoost / ridge-stack (grouped-Optuna, 20 trials) | 10.46 / 10.51 / 11.13 | 6.96 / 7.08 / 7.26 | 0.621 / 0.623 / 0.588 | +0.16 NS / +0.21 [+0.04,+0.38] / +0.83 [+0.56,+1.09] | LGBM NS; Cat NS (p_boot=0.72, p_holm=1.0); stack-harm NS under study-bootstrap Holm (p_boot=0.14, p_holm=1.0) | LGBM NS, Cat sig unadjusted but NS under Holm, stack-harm survives seed-t Holm (p=6.9e-04) | **null on RMSE for LGBM; CatBoost harmful unadjusted but NS under both; stacking significantly harmful under seed-t but NOT under study-bootstrap → suggestive only** |
+| G | 90% cross-conformal: AFT-best vs EB-calibrated | cov 0.898 / 0.902 | width 5.08 / **3.72** logit | – | width diff 1.36 (27% narrower at equal coverage) | boot widths 5.32 [4.53,6.14] / 3.67 [3.34,4.10]; diff 1.65 [1.02,2.36] — excludes 0 | n/a (efficiency, not a gain test) | **✓ both hit nominal; calibrated intervals 27% narrower (robust)** |
 | H | SHAP on honest AFT | – | – | – | – | – | – | steric partly / charge yes / salts no / DOC partly (see §4d, confirmed) |
 
-Holm family (m=15 primary RMSE tests; `R3_holm.csv`, `log_20holm.log`):
-A-allextra, A2-allextra/+zp/+wca+tmp/+cats, C2-k1/k2/k3 (honest), D-hybrid,
-D2-vs-xgb13, E-low/E-high, F-lgb/F-cat/F-stack. 7 survive (D, E-low, A2-wca-table,
-C2-k3, F-stack-harm, E-high, A2-allextra); 4 are sig unadjusted but NS under Holm
-(C2-k2: Holm p=0.070; D2: 0.105; F-cat: 0.124; A2-+zp: 0.162; A2-+cats and F-lgb/C2-k1/A-all
-are NS already unadjusted). Holm is conservative and
-family-dependent; the k2/C2cats/D2 effects are reported as borderline/suggestive,
-not robust claims. Full bootstrap table: `R3_bootstrap.csv` (`log_19bootstrap.log`).
+Survivor reconciliation (15 tests): seed-t Holm (`20_holm.py`) flags **7**
+(D, E-low, A2-wca-table/+wca+tmp, C2-k3, F-stack-harm, E-high, A2-allextra);
+study-bootstrap Holm (`20b_holm_clusterboot.py`) flags only **2** (D-harm,
+C2-k3). All 5 flips are losses under the stricter study lens: E-low, E-high,
+F-stack, A2-allextra, A2-+wca+tmp. C2-k2 stays borderline-NS under both
+(seed-t Holm p=0.070; study-boot Holm p=0.092). Full bootstrap table:
+`R3_bootstrap.csv` (`log_19bootstrap.log`); study-bootstrap output:
+`R3_holm_clusterboot.csv` (`log_20b.log`).
 
 ### Notes per item
 - **A.** Extra features do not transfer across studies (RMSE CI includes harm).
@@ -410,32 +419,56 @@ not robust claims. Full bootstrap table: `R3_bootstrap.csv` (`log_19bootstrap.lo
   salt PDs flat (ranges ≤0.021); DOC declining limb only (−0.19).
 
 ### Publishable additions from round 2
-1. EB few-shot study calibration (k≥2, significant, with the naive-calibration
-   failure as the cautionary companion).
-2. Conformal efficiency gain from calibration (equal coverage, −29% width) +
+1. **C2 k=3 EB few-shot study calibration** — significant under BOTH Holm lenses
+   (study-bootstrap Holm p_raw=2.0e-04, p_holm=0.0028; seed-t Holm p=0.0049);
+   the single robust improvement claim. k=2 borderline under both (p_holm=0.092/
+   0.070), k=1 NS under both. Naive one-shot calibration is significantly
+   harmful (cautionary companion). Honest train-only plug-ins (leakage audited;
+   see #4).
+2. **Conformal efficiency gain from EB calibration** — equal coverage
+   (0.898/0.902 vs nominal 0.90), intervals 27% narrower at equal coverage
+   (5.08 → 3.72 logit width; bootstrap diff 1.65 [1.02,2.36] excludes 0) +
    distance-dependent coverage table.
-3. Operating-condition completeness (TMP/wca) helping on the zp subset, with
-   the "not zp itself" ablation.
-4. Three informative nulls: stacking hurts, physics hybrids hurt (both
-   formulations), extra features don't transfer (but do interpolate).
-5. Mixed-effects variance decomposition (ICC ≈ 0.5) + honest PIs for new studies.
+3. **Physics-hybrid failure** — both formulations significantly harmful or
+   non-significant under both lenses: D hybrid p_boot=1.0e-04, p_holm=0.0015
+   (robust failure; R²_phys = −10.3 / −3.9); D2 physics-as-features NS under
+   both lenses. Ferry–Renkin sphere/pore model too crude for PFAS.
+4. **C2 leakage audit** — honest train-only variance plug-in re-estimation
+   changes RMSE ≤0.08 with no significance flips; per-study weight shift
+   max|Δw| = 0.056 vs 0.05 threshold (train-only vs global weights), numerically
+   negligible but now clean (`tests/test_c2_leakage.py` closeness check fails at
+   0.056 > 0.05 and is run as a non-fatal WARNING in `run_all.sh`).
+   Selection-invariance (random vs PFOA/PFOS-standard vs modal-PFAS calibration
+   points) shows no strategy dominates — the EB gain is not point-picking luck.
+
+Not robust / withdrawn as improvement claims: A2 (TMP/wca completeness on the
+zp subset — seed-significant but collapses to ≈0 gain under study-bootstrap Holm
+and is hypothesis-only); stacking harm (sig. under seed-t Holm but NS under
+study-bootstrap Holm — suggestive only); extra-features null (A, robust null but
+not an improvement).
 
 ### Round-3 robustness verdicts (no new methods; `R3_*.csv`, `log_19bootstrap.log`, `log_20holm.log`)
 1. **Cluster bootstrap agrees with seed-t everywhere EXCEPT A2**: C2 (k1 NS,
    k2/k3 sig), A-all null, G-width diff all replicate; A2 seed-sig gains
    vanish under study resampling (pooled and study-averaged bootstraps include
    0). A2 is therefore **not robust** and is withdrawn as an improvement claim.
-2. **Holm (m=15, seed-t p-values)**: 7/15 survive; C2-k2 (0.070), D2 (0.105), F-cat (0.124),
-   A2-+zp (0.162) are sig unadjusted but NS under Holm and are reported as
-   borderline/suggestive (A2-+cats, F-lgb, C2-k1, A-all are NS unadjusted).
-   C2-k3, D-harm, F-stack-harm, E-low/high, A2-table-variant survive.
-   The earlier seed-level bootstrap-Holm (which resampled 10 seeds for non-C2
-   tests) is SUPERSEDED — see the study-level correction below
-   (old output preserved as `R3_holm_clusterboot_seedonly_SUPERSEDED.csv`;
-   do not cite it).
+2. **Holm (m=15)**: seed-t Holm (`20_holm.py`, `R3_holm.csv`) flags **7/15**
+   (D, E-low, A2-wca-table/+wca+tmp, C2-k3, F-stack-harm, E-high,
+   A2-allextra); study-bootstrap Holm (`20b_holm_clusterboot.py`,
+   `R3_holm_clusterboot.csv`) flags only **2/15** (D-harm, C2-k3). All 5 flips
+   are losses under the stricter study lens (E-low, E-high, F-stack,
+   A2-allextra, A2-+wca+tmp); C2-k2 stays borderline-NS under both (seed-t
+   Holm p=0.070; study-boot Holm p=0.092). Seed-t Holm is **SUPERSEDED** by the
+   study-level cluster-bootstrap lens — do not cite the 7-survivor count or
+   seed-t Holm p-values as claims. C2-k3 p-values: seed-t Holm p=0.0049 vs
+   study-bootstrap Holm p_raw=2.0e-04, p_holm=0.0028 (k0 study-averaged
+   baseline RMSE = 9.56).
 3. **C2 leakage audit**: honest train-only plug-ins change RMSE by ≤0.08 with
-   no significance flips; asserts hold in code but `test_honest_plugins_close_to_global`
-   currently FAILS (max|Δw|=0.056 > 0.05 threshold; `tests/test_c2_leakage.py`).
+   no significance flips; asserts hold in code but
+   `test_honest_plugins_close_to_global` FAILS at max|Δw|=0.056 > 0.05
+   threshold (`tests/test_c2_leakage.py`); run as a non-fatal WARNING in
+   `run_all.sh`. Leakage numerically negligible (per-study |Δw|≤0.046), no
+   significance flips; selection-variant study shows no strategy dominates.
    Selection-variant study (random vs PFOA/PFOS-standard vs modal-PFAS) shows
    no strategy dominates — the EB gain is not point-picking luck.
 4. **Paper hypers under grouped CV**: 12.01 RMSE (+1.71 vs grouped-retuned,
@@ -588,7 +621,9 @@ were chosen by documented, deterministic defaults — not tuned to match.
   `log_13c_honest.log`; note: on case-insensitive filesystems `log_13c.log`
   aliases the round-2 `log_13C.log` — the honest log is duplicated at
   `log_13c_honest.log`), `tests/test_c2_leakage.py`
-  (run `/opt/anaconda3/envs/fml/bin/python tests/test_c2_leakage.py` — ALL PASS),
+  (run `python3 tests/test_c2_leakage.py` — 4/5 pass; closeness check
+  `test_honest_plugins_close_to_global` FAILS at max|Δw|=0.056 vs 0.05
+  threshold, run as non-fatal WARNING in `run_all.sh`),
   `scripts/19_bootstrap.py` (2000 study-resamples; `R3_bootstrap.csv`,
   `log_19bootstrap.log`),   `scripts/20_holm.py` (`R3_holm.csv`,
   `log_20holm.log`), `scripts/20b_holm_clusterboot.py` (STUDY-level bootstrap

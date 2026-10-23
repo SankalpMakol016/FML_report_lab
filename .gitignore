@@ -11,5 +11,6 @@ venv/
 .idea/
 # data / env (keep results/ tracked intentionally)
 *.log
+.env
 !results/optuna_full.log
 !results/VERIFY_runtime.log
