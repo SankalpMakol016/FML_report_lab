@@ -635,7 +635,10 @@ were chosen by documented, deterministic defaults — not tuned to match.
   `C2_variants_summary.csv`, `C2_variants_coverage.csv`,
   `C2_variants_rmse_vs_k.png`, `log_C2variants.log`),
   `scripts/23_paper_hypers_grouped.py` (`R3_paperhypers_grouped.csv`,
-  `log_R3paper.log`). Run order for round 3: 13c → 22 → 23 → 19 → 20
+  `log_R3paper.log`),
+  `scripts/24_ensemble_random_vs_grouped.py` (`S24_ensemble_random_vs_grouped.csv`;
+  AFT / LightGBM / CatBoost + mean ensemble with 8 extra features under random
+  split and study-grouped CV; no tuning). Run order for round 3: 13c → 22 → 23 → 19 → 20
   (19 needs honest LOSO base + 13c audit; all read round-2 artifacts).
 - `results/tables/*.csv` (metrics, audit, SHAP, sensitivity, diagnostics),
   `results/figures/*.png` (39 figures),
@@ -645,3 +648,46 @@ were chosen by documented, deterministic defaults — not tuned to match.
 - Seeds fixed (`SEED=42`) everywhere; residual run-to-run jitter (~0.03 RMSE)
   comes from XGBoost CPU thread-nondeterminism, documented in §3a — it does
   not affect any conclusion, and itself illustrates the logit-R² fragility.
+
+## 8. Model ensemble: random split vs study-grouped CV (`scripts/24_ensemble_random_vs_grouped.py`)
+
+Evaluates XGBoost-AFT (grouped-retuned hypers, no tuning), LightGBM, CatBoost
+and their simple mean ensemble — each built on the 13 base features plus 8
+extra features (carbon count, ionic strength, charge term, volume/permeance,
+log permeance, RO flag, lab flag, pfas_class one-hot) — under two protocols:
+
+- **(a) paper-style random split:** 10 random 85/15 holdouts + random 5-fold
+  CV (seeds 0-9), and
+- **(b) study-grouped 10-seed CV** (`grouped_folds`, same folds as round 2).
+
+No hyperparameter tuning is performed (fixed defaults), so nothing is tuned to
+show a gain. Metrics are RMSE / MAE (% rejection, uncensored) and censoring-aware
+C-index, with study-level cluster-bootstrap CIs (B=2000, resample ref_id) for
+the per-study-averaged metric and for the gain vs AFT.
+
+Results (`results/tables/S24_ensemble_random_vs_grouped.csv`):
+
+| Protocol | Variant | RMSE (mean±std over seeds) | MAE | C-index | RMSE gain vs AFT [study-boot 95% CI] |
+|---|---|---|---|---|---|
+| Random 85/15 holdout | AFT | 7.22±0.50 | 4.52±0.24 | 0.800±0.009 | reference |
+| Random holdout | LightGBM | 5.06±0.75 | 2.64±0.29 | 0.890±0.009 | **−1.51 [−2.02,−0.98]** |
+| Random holdout | CatBoost | 6.16±0.70 | 3.31±0.33 | 0.866±0.010 | −1.06 [−1.45,−0.62] |
+| Random holdout | Ensemble (mean) | 5.82±0.66 | 3.18±0.28 | 0.871±0.008 | −1.16 [−1.45,−0.86] |
+| Random 5-fold CV | AFT | 7.22±0.06 | 4.57±0.03 | 0.793±0.001 | reference |
+| Random 5-fold CV | LightGBM | 5.29±0.11 | 2.72±0.04 | 0.885±0.002 | −1.45 [−2.01,−0.87] |
+| Random 5-fold CV | CatBoost | 6.23±0.09 | 3.35±0.04 | 0.864±0.002 | −0.86 [−1.34,−0.40] |
+| Random 5-fold CV | Ensemble (mean) | 5.90±0.07 | 3.26±0.03 | 0.867±0.001 | −1.05 [−1.39,−0.69] |
+| Study-grouped 10-seed CV | AFT | 10.50±0.36 | 7.37±0.23 | 0.626±0.015 | reference |
+| Study-grouped CV | LightGBM | 11.13±0.68 | 7.41±0.48 | 0.648±0.016 | +0.31 [−0.25,+0.84] |
+| Study-grouped CV | CatBoost | 10.76±0.23 | 7.14±0.15 | 0.632±0.010 | +0.03 [−0.52,+0.55] |
+| Study-grouped CV | Ensemble (mean) | 10.41±0.37 | 6.99±0.26 | 0.643±0.010 | −0.23 [−0.67,+0.16] |
+
+Interpretation: under the leaky random split, LightGBM/CatBoost/ensemble look
+to improve RMSE to ~5–6 vs AFT ~7.2 — but these gains are a leakage artefact
+(the same study's rows sit on both sides of the split). Under the honest
+study-grouped CV, all four methods collapse to a single poor band (RMSE
+~10.4–11.1) and **no variant shows a significant gain vs AFT** (all gain CIs
+include 0; ensemble gain −0.23 [−0.67,+0.16]). The mean ensemble does not
+robustly beat AFT. This is consistent with §3–§5: study heterogeneity, not the
+learner or ensembling, is the bottleneck, and random-split improvements do not
+transfer.
